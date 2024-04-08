@@ -8,7 +8,7 @@ const readEnvironment = async (jarFile) => {
     let forgeConfig = jarFile.file('META-INF/mods.toml')
     let fabricConfig = jarFile.file('fabric.mod.json')
     console.log(forgeConfig, fabricConfig)
-    if (forgeConfig) {
+    if (forgeConfig && !document.getElementById('fabric').checked) {
         logToPage('检测到为Forge Mod')
         let forgeToml, side
         try {
@@ -35,7 +35,7 @@ const readEnvironment = async (jarFile) => {
         }
         console.log(forgeToml, side)
         return side
-    } else if (fabricConfig) {
+    } else if (fabricConfig && !document.getElementById('forge').checked) {
         logToPage('检测到为Fabric Mod')
         let fabricJson
         try {
@@ -49,7 +49,7 @@ const readEnvironment = async (jarFile) => {
     } else return logToPage('无法检测类型，可能为库或者Optifine')
 }
 
-const uploadAndUnzip = async () => {
+const resolvePack = async () => {
     //获取文件并解析zip
     const fileInput = document.getElementById('zipFileInput')
     const file = fileInput.files[0]
@@ -70,44 +70,60 @@ const uploadAndUnzip = async () => {
     let clientPack = structuredClone(fileContent), serverPack = structuredClone(fileContent)
     logToPage('整合包解析完成')
     //处理托管部分
-    logToPage('开始处理托管部分')
-    for (let i = 0; i < fileContent.files.length; i++) {
-        let data = fileContent.files[i];
-        logToPage(`开始处理${data.path} (${i + 1}/${fileContent.files.length})`)
-        console.log(data)
-        let url = data.downloads[0];
-        logToPage('开始下载：' + url)
-        let success = true;
-        let jarFile = await fetch(url).then(function (response) {
-            if (response.status === 200 || response.status === 0) {
-                return Promise.resolve(response.blob())
-            } else {
-                return Promise.reject(new Error(response.statusText))
+    if (!document.getElementById('mcbbs').checked) {//只有mcbbs格式没有远程文件
+        logToPage('开始处理托管部分')
+        for (let i = 0; i < fileContent.files.length; i++) {
+            let data = fileContent.files[i];
+            logToPage(`开始处理${data.path} (${i + 1}/${fileContent.files.length})`)
+            console.log(data)
+            let url = data.downloads[0];
+            // logToPage('开始下载：' + url)
+            // let success = true;
+            // let jarFile = await fetch(url).then(function (response) {
+            //     if (response.status === 200 || response.status === 0) {
+            //         return Promise.resolve(response.blob())
+            //     } else {
+            //         return Promise.reject(new Error(response.statusText))
+            //     }
+            // }).then(JSZip.loadAsync).catch(err => {
+            //     console.log(err)
+            //     success = false;
+            // })
+            // if (!success) {
+            //     logToPage('加载Jar过程中出错，默认为双端Mod')
+            //     continue;
+            // }
+            // logToPage('Jar文件下载完成')
+            // let environment = await readEnvironment(jarFile)
+            let apiUrl = 'https://api.modrinth.com/v2/project/' + url.split('/')[4]
+            logToPage('开始获取：' + apiUrl)
+            let success = true;
+            let info = await fetch(apiUrl).then(res => {
+                if (res.ok) return res.json()
+                success = false
+            })
+            if (!success) {
+                logToPage('加载数据过程中出错，默认为双端Mod')
+                continue;
             }
-        }).then(JSZip.loadAsync).catch(err => {
-            console.log(err)
-            success = false;
-        })
-        if (!success) {
-            logToPage('加载Jar过程中出错，默认为双端Mod')
-            continue;
+            let environment = '*';
+            if (info.client_side == 'unsupported') environment = 'server'
+            if (info.server_side == 'unsupported') environment = 'client'
+            if (environment == 'client') {
+                logToPage('此Mod为纯客户端Mod')
+                //从服务端部分删除
+                serverPack.files = serverPack.files.filter(x => x.path != data.path)
+            } else if (environment == 'server') {
+                logToPage('此Mod为纯服务端Mod')
+                //从客户端部分删除
+                clientPack.files = clientPack.files.filter(x => x.path != data.path)
+            } else
+                logToPage('此Mod为双端Mod')
         }
-        logToPage('Jar文件下载完成')
-        let environment = await readEnvironment(jarFile)
-        if (environment == 'client') {
-            logToPage('此Mod为纯客户端Mod')
-            //从服务端部分删除
-            serverPack.files = serverPack.files.filter(x => x.path != data.path)
-        } else if (environment == 'server') {
-            logToPage('此Mod为纯服务端Mod')
-            //从客户端部分删除
-            clientPack.files = clientPack.files.filter(x => x.path != data.path)
-        } else
-            logToPage('此Mod为双端Mod')
+        logToPage('托管部分处理完成')
+        clientZip.file('modrinth.index.json', JSON.stringify(clientPack))
+        serverZip.file('modrinth.index.json', JSON.stringify(serverPack))
     }
-    logToPage('托管部分处理完成')
-    clientZip.file('modrinth.index.json', JSON.stringify(clientPack))
-    serverZip.file('modrinth.index.json', JSON.stringify(serverPack))
     //处理override部分
     logToPage('开始处理非托管部分')
     let modFolder = zipData.folder('overrides').folder('mods')

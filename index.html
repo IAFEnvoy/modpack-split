@@ -16,15 +16,15 @@
         <legend>请选择需要分离的整合包格式</legend>
         <div>
             <input type="radio" id="modrinth" name="input" value="modrinth" checked />
-            <label for="modrinth" title=".mrpack文件">Modrinth托管</label>
+            <label for="modrinth" title=".mrpack文件">Modrinth托管（请求Modrinth API分离）</label>
         </div>
         <div>
             <input type="radio" id="curseforge" name="input" value="curseforge" disabled />
-            <label for="curseforge" title="暂未完成">Curseforge托管</label>
+            <label for="curseforge" title="暂未完成">Curseforge托管（做不到）</label>
         </div>
         <div>
             <input type="radio" id="mcbbs" name="input" value="mcbbs" disabled />
-            <label for="mcbbs" title="暂未完成">MCBBS打包</label>
+            <label for="mcbbs" title="暂未完成">MCBBS打包（解析Jar分离）</label>
         </div>
     </fieldset>
     <fieldset>
@@ -68,7 +68,7 @@
     </fieldset>
     <fieldset>
         <legend>执行操作</legend>
-        <button type="button" onclick="uploadAndUnzip()">执行分离</button>
+        <button type="button" onclick="resolvePack()">执行分离</button>
         <br>
         <br>
         <textarea id="logs" style="width:100%;height:400px;overflow:auto;" disabled></textarea>
