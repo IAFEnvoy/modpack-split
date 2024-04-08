@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MC崩溃分析</title>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <h1>MC崩溃分析</h1>
+    <h3>注意：目前为测试版本，有任何问题请到GitHub反馈！</h3>
+    <fieldset>
+        <legend>请选择加载器类型</legend>
+        <div>
+            <input type="radio" id="forge" name="mod-type" value="forge" />
+            <label for="forge">Forge</label>
+        </div>
+        <div>
+            <input type="radio" id="fabric" name="mod-type" value="fabric" checked />
+            <label for="fabric">Fabric</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>选择Crash Report文件</legend>
+        <form id="zipForm">
+            <input type="file" id="local-file" accept=".txt">
+        </form>
+        <div>或者在这里粘贴mclo.gs链接</div>
+        <input type="text" id="mclo-gs">
+    </fieldset>
+    <fieldset>
+        <legend>执行操作</legend>
+        <button type="button" onclick="analyze()">分析</button>
+        <input type="checkbox" id="details">
+        <label for="details">显示更加详细的信息</label>
+        <br>
+        <br>
+        <textarea id="logs" style="width:100%;height:400px;overflow:auto;" disabled></textarea>
+    </fieldset>
+</body>

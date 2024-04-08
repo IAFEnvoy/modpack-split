@@ -50,6 +50,7 @@ const readEnvironment = async (jarFile) => {
 }
 
 const resolvePack = async () => {
+    document.getElementById('logs').innerHTML = ''
     //获取文件并解析zip
     const fileInput = document.getElementById('zipFileInput')
     const file = fileInput.files[0]
