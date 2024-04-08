@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MC整合包CS分离</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <h1>MC整合包客户端服务端分离 V0.1 By IAFEnvoy</h1>
+    <h3>注意：目前为测试版本，只支持Modrinth打包，请在使用后检查是否分离正确！</h3>
+    <fieldset>
+        <legend>请选择需要分离的整合包格式</legend>
+        <div>
+            <input type="radio" id="modrinth" name="input" value="modrinth" checked />
+            <label for="modrinth" title=".mrpack文件">Modrinth托管（请求Modrinth API分离）</label>
+        </div>
+        <div>
+            <input type="radio" id="curseforge" name="input" value="curseforge" disabled />
+            <label for="curseforge" title="暂未完成">Curseforge托管（做不到）</label>
+        </div>
+        <div>
+            <input type="radio" id="mcbbs" name="input" value="mcbbs" disabled />
+            <label for="mcbbs" title="暂未完成">MCBBS打包（解析Jar分离）</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>请选择使用的加载器类型</legend>
+        <b>注意：默认情况下优先读取Forge的配置文件，其次才会读取Fabric的配置文件</b><br>
+        <b>1.如果整合包中有两个加载器都支持的Mod，请一定要选择对应的加载器，否则可能导致分离失败！</b><br>
+        <b>2.如果整合包中同时拥有两个加载器的Mod（如安装了信雅互联），请选择自动检测！</b>
+        <div>
+            <input type="radio" id="auto" name="mod-type" value="auto" checked />
+            <label for="auto">自动检测</label>
+        </div>
+        <div>
+            <input type="radio" id="forge" name="mod-type" value="forge" />
+            <label for="forge">Forge</label>
+        </div>
+        <div>
+            <input type="radio" id="fabric" name="mod-type" value="fabric" />
+            <label for="fabric">Fabric</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>选择你的文件</legend>
+        <form id="zipForm">
+            <input type="file" id="zipFileInput" accept=".zip,.mrpack">
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>选择导出内容</legend>
+        <div>
+            <input type="radio" id="client-server" name="output-type" value="client-server" checked />
+            <label for="client-server">客户端+服务端</label>
+        </div>
+        <div>
+            <input type="radio" id="server-only" name="output-type" value="server-only" />
+            <label for="server-only">仅服务端</label>
+        </div>
+        <div>
+            <input type="radio" id="test-none" name="output-type" value="test-none" />
+            <label for="test-none">不执行导出（仅供测试使用）</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>执行操作</legend>
+        <button type="button" onclick="resolvePack()">执行分离</button>
+        <br>
+        <br>
+        <textarea id="logs" style="width:100%;height:400px;overflow:auto;" disabled></textarea>
+    </fieldset>
+</body>
