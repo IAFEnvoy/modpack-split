@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MC整合包格式转换</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <h1>MC整合包格式转换</h1>
+    <h3>注意：目前为测试版本，只支持Modrinth打包，请在使用后检查是否下载正确！</h3>
+    <fieldset>
+        <legend>选择你的Modrinth打包文件</legend>
+        <form id="zipForm">
+            <input type="file" id="zipFileInput" accept=".mrpack">
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>选择导出格式</legend>
+        <div>
+            <input type="radio" id="raw" name="output-type" value="raw" checked />
+            <label for="raw">Raw打包（只有mods和原包中的override内容）</label>
+        </div>
+        <div>
+            <input type="radio" id="mcbbs" name="output-type" value="mcbbs" disabled />
+            <label for="mcbbs">MCBBS打包</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>执行操作</legend>
+        <button type="button" onclick="resolvePack()">执行转换</button>
+        <br>
+        <br>
+        <textarea id="logs" style="width:100%;height:400px;overflow:auto;" disabled></textarea>
+    </fieldset>
+</body>

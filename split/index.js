@@ -77,24 +77,6 @@ const resolvePack = async () => {
             logToPage(`开始处理${data.path} (${i + 1}/${fileContent.files.length})`)
             console.log(data)
             let url = data.downloads[0];
-            // logToPage('开始下载：' + url)
-            // let success = true;
-            // let jarFile = await fetch(url).then(function (response) {
-            //     if (response.status === 200 || response.status === 0) {
-            //         return Promise.resolve(response.blob())
-            //     } else {
-            //         return Promise.reject(new Error(response.statusText))
-            //     }
-            // }).then(JSZip.loadAsync).catch(err => {
-            //     console.log(err)
-            //     success = false;
-            // })
-            // if (!success) {
-            //     logToPage('加载Jar过程中出错，默认为双端Mod')
-            //     continue;
-            // }
-            // logToPage('Jar文件下载完成')
-            // let environment = await readEnvironment(jarFile)
             let apiUrl = 'https://api.modrinth.com/v2/project/' + url.split('/')[4]
             logToPage('开始获取：' + apiUrl)
             let success = true;
@@ -155,14 +137,14 @@ const resolvePack = async () => {
     //保存
     if (document.getElementById('client-server').checked) {
         //保存客户端
-        logToPage('正在保存：' + fileName + '-client.mrpack')
+        logToPage('正在打包：' + fileName + '-client.mrpack，请稍后')
         saveAs(await clientZip.generateAsync({ type: 'blob' }), fileName + '-client.mrpack')
-        logToPage('保存完成')
+        logToPage('打包完成')
     }
     if (!document.getElementById('test-none').checked) {
         //保存服务端
-        logToPage('正在保存：' + fileName + '-server.mrpack')
+        logToPage('正在打包：' + fileName + '-server.mrpack，请稍后')
         saveAs(await serverZip.generateAsync({ type: 'blob' }), fileName + '-server.mrpack')
-        logToPage('保存完成')
+        logToPage('打包完成')
     }
 }
