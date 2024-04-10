@@ -6,7 +6,8 @@
         "exception": "出现断言错误",
         "reason": "代码里面有assert，并且检查不通过",
         "solution_user": "这个问题不应该发生",
-        "solution_developer": "把代码里面的assert删掉"
+        "solution_developer": "把代码里面的assert删掉",
+        "show_message": true
     },
     "java.lang.UnsupportedClassVersionError": {
         "processor": true
@@ -27,19 +28,22 @@
         "exception": "无法找到在库中找到类",
         "reason": "可能是库文件丢失",
         "solution_user": "1.使用启动器补全文件 2.更换Mod，加载器或者依赖的版本 3.跟作者反馈",
-        "solution_developer": "尝试重新运行Gradle/Maven初始化脚本"
+        "solution_developer": "尝试重新运行Gradle/Maven初始化脚本",
+        "show_message": true
     },
     "java.lang.NoSuchFieldError": {
         "exception": "无法找到域定义",
         "reason": "可能是class文件被更改或者缺失导致",
         "solution_user": "1.更换Mod，加载器或者依赖的版本 2.跟作者反馈",
-        "solution_developer": "1.检查是否使用错误的混淆表 2.尝试重新编译整个项目"
+        "solution_developer": "1.检查是否使用错误的混淆表 2.尝试重新编译整个项目",
+        "show_message": true
     },
     "java.lang.NoSuchMethodError": {
         "exception": "无法找到方法定义",
         "reason": "可能是class文件被更改或者缺失导致",
         "solution_user": "1.更换Mod，加载器或者依赖的版本 2.跟作者反馈",
-        "solution_developer": "1.检查是否使用错误的混淆表 2.尝试重新编译整个项目"
+        "solution_developer": "1.检查是否使用错误的混淆表 2.尝试重新编译整个项目",
+        "show_message": true
     },
     "java.lang.OutOfMemoryError": {
         "exception": "内存溢出",
@@ -57,7 +61,8 @@
         "exception": "无法加载native方法对应的库",
         "reason": "dll文件缺失",
         "solution_user": "使用启动器补全文件",
-        "solution_developer": "尝试重新运行Gradle/Maven初始化脚本"
+        "solution_developer": "尝试重新运行Gradle/Maven初始化脚本",
+        "show_message": true
     },
     "java.lang.VirtualMachineError": {
         "exception": "虚拟机错误",
