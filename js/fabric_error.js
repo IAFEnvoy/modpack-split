@@ -34,6 +34,7 @@ const loadProcessor = (path) => {
     fetch(path).then(res => res.text()).then(text => jsyaml.load(text)).then(yml => processors = { ...processors, ...yml })
 }
 loadProcessor('../exception/java.lang.yml')
+loadProcessor('../exception/net.fabricmc.loader.yml')
 
 const applyMapping = (origin, mapping) => {
     if (mapping[origin]) return mapping[origin]

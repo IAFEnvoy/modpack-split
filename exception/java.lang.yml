@@ -35,28 +35,28 @@ java.lang.ExceptionInInitializerError:
 java.lang.NoClassDefFoundError:
   comment:
     explanation: 无法找到类定义
-    reason: 可能是class文件被移动或者删除导致
+    reason: class文件被移动或者删除导致
     solution_user: 1.检查Mod依赖是否安装 2.更换Mod，加载器或者依赖的版本 3.跟作者反馈
     solution_developer: 1.检查是否依赖缺失 2.检查是否使用错误的混淆表 3.尝试重新编译整个项目
   show_message: true
 java.lang.ClassNotFoundException:
   comment:
-    explanation: 无法找到在库中找到类
-    reason: 可能是库文件丢失
+    explanation: 无法在库中找到类
+    reason: 库文件、依赖Mod丢失或损坏
     solution_user: 1.使用启动器补全文件 2.更换Mod，加载器或者依赖的版本 3.跟作者反馈
     solution_developer: 尝试重新运行Gradle/Maven初始化脚本
   show_message: true
 java.lang.NoSuchFieldError:
   comment:
     explanation: 无法找到域定义
-    reason: 可能是class文件被更改或者缺失导致
+    reason: class文件被更改或者缺失导致
     solution_user: 1.更换Mod，加载器或者依赖的版本 2.跟作者反馈
     solution_developer: 1.检查是否使用错误的混淆表 2.尝试重新编译整个项目
   show_message: true
 java.lang.NoSuchMethodError:
   comment:
     explanation: 无法找到方法定义
-    reason: 可能是class文件被更改或者缺失导致
+    reason: class文件被更改或者缺失导致
     solution_user: 1.更换Mod，加载器或者依赖的版本 2.跟作者反馈
     solution_developer: 1.检查是否使用错误的混淆表 2.尝试重新编译整个项目
   show_message: true

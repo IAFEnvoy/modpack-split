@@ -1,0 +1,18 @@
+net.fabricmc.loader.api.EntrypointException:
+  regex:
+    - pattern: Exception while loading entries for entrypoint '([\w\d_]+)' provided by '([\w\d_]+)'
+      flag: i
+      comment:
+        explanation: 加载Mod {2}的{1}入口点时出错
+        reason: 可能因为接口实现错误
+        solution_user: 跟作者反馈
+        solution_developer: 检查入口点实现的接口
+net.fabricmc.loader.api.LanguageAdapterException:
+  regex:
+    - pattern: Class ([\w\d.$]+) cannot be cast to net\.fabricmc\.api\.(ModInitializer|ClientModInitializer|DedicatedServerModInitializer)!
+      flag: i
+      comment:
+        explanation: 类{1}无法被转换为net.fabricmc.api.{2}
+        reason: 接口实现错误
+        solution_user: 跟作者反馈
+        solution_developer: 让类{1}实现{2}接口
