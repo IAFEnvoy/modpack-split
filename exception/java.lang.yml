@@ -1,3 +1,10 @@
+java.lang.NullPointerException:
+  comment:
+    explanation: 空指针错误
+    reason: 哪里又null啦
+    solution_user: 尝试重启，如一直发生此错误更换版本或者联系作者
+    solution_developer: 空中有指针划过，谨防报错。
+  show_message: true
 java.lang.RuntimeException:
   regex:
     - pattern: Could not execute entrypoint stage '(main|client|server)' due to errors, provided by '([\w\d_]+)'!

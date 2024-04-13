@@ -7,6 +7,7 @@ const internalPackages = [
     'org.lwjgl',
     'com.google',
     'com.ibm',
+    'sun.reflect'
 ]
 
 class ExceptionComment {
@@ -35,6 +36,7 @@ const loadProcessor = (path) => {
 }
 loadProcessor('../exception/java.lang.yml')
 loadProcessor('../exception/net.fabricmc.loader.yml')
+loadProcessor('../exception/net.minecraft.yml')
 
 const applyMapping = (origin, mapping) => {
     if (mapping[origin]) return mapping[origin]
@@ -49,7 +51,7 @@ const getComment = (exception) => {
     if (cfg) {
         if (cfg.regex)
             for (let regex of cfg.regex) {
-                let regexExpression = new RegExp(regex.pattern, regex.flag)
+                let regexExpression = new RegExp(regex.pattern, regex.flag ?? 'i')
                 let r = exception.message.trim().match(regexExpression)
                 if (r) {
                     let placeholders = {}
@@ -84,7 +86,7 @@ const parsePackage = (trace) => {
     }
 }
 
-const parse = async (stack, logMethod) => {
+const parse = async (stack, logMethod, advanced) => {
     let errors = structuredClone(stack.subException)
     errors.unshift(stack)
     for (let error of errors) {
@@ -92,16 +94,20 @@ const parse = async (stack, logMethod) => {
         logMethod(`${error.exception} | 严重错误：${error.critical ? '是' : '否'}`)
         let result = getComment(error)
         if (result) {
-            if (result.show_message)
-                logMethod('原始信息：' + error.message)
-            logMethod('解释：' + result.explanation)
+            if (advanced) {
+                if (result.show_message)
+                    logMethod('原始信息：' + error.message)
+                logMethod('解释：' + result.explanation)
+            }
             logMethod('可能原因：' + result.reason)
             logMethod('解决方案：')
             logMethod('玩家：' + result.solution_user)
-            logMethod('开发者：' + result.solution_developer)
+            if (advanced)
+                logMethod('开发者：' + result.solution_developer)
         } else logMethod('暂未收录解释和解决方案')
         let p = parsePackage(error.trace)
         logMethod('可能导致出错的Mod：' + p.modIds.join(', '))
-        logMethod('可能导致出错的包：' + p.packages.join(', '))
+        if (advanced)
+            logMethod('可能导致出错的包：' + p.packages.join(', '))
     }
 }

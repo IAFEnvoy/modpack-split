@@ -1,0 +1,9 @@
+net.minecraft.util.InvalidIdentifierException:
+  regex:
+    - pattern: 'Non \[a-z0-9/\._-\] character in path of location: ([\w\d/:]+)'
+      flag: i
+      comment:
+        explanation: Location中出现非法字符
+        reason: 在{1}中有小写字母，数字，下划线，减号，点以外的字符
+        solution_user: 如果有使用魔改Mod（如crt、kubejs），请检查物品等的id是否有非法字符
+        solution_developer: 检查使用的Identifier是否有非法字符

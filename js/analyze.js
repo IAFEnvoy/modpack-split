@@ -10,7 +10,7 @@ const analyze0 = (data) => {
     console.log(stacks)
     if (stacks) {
         logToPage('错误解析成功')
-        parse(stacks, logToPage)
+        parse(stacks, logToPage, document.getElementById('details').checked)
     }
 }
 
